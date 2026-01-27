@@ -26,7 +26,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         if (IsOwner)
         {
-            GameObject mainObj = GameObject.Find("MainCamera");
+            GameObject mainObj = GameObject.Find("Main Camera");
             if (mainObj)
             {
                 var mainCam = mainObj.GetComponent<Camera>();
@@ -49,8 +49,8 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsOwner) return;
         
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
         transform.position += new Vector3(x, y, 0) * movementSpeed * Time.deltaTime;
     }
 }
