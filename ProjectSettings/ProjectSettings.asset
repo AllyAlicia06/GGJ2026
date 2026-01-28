@@ -926,12 +926,12 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: d4d4dbc6-5be8-4f3e-bd2f-cf4df98fa9e4
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: GGJ2026 2026-01-26_21-44-26
+  projectName: GGJ2026
   organizationId: ally_alicia
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
