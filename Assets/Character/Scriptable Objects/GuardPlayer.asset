@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b06c7c69874ad4390b6d9b4d73ce98, type: 3}
+  m_Name: GuardPlayer
+  m_EditorClassIdentifier: Assembly-CSharp::Character
+  id: 1
+  displayName: New Display Name
+  icon: {fileID: 21300000, guid: 11c3a66758f32534aac994333405ea86, type: 3}
+  prefab: {fileID: 6687209114421853017, guid: f24fbf4af77c9c44494435cb8ee44904, type: 3}
