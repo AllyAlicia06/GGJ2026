@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[RequireComponent(typeof(Rigidbody2D))]
+
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -11,7 +11,7 @@ public class CharacterMovement : MonoBehaviour
     private Vector2 currentInput;
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponentInParent<Rigidbody2D>();
         rb.gravityScale = 0;
     }
 

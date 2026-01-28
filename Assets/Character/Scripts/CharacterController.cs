@@ -1,7 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
-[RequireComponent(typeof(CoughAbility))]
-[RequireComponent(typeof(CharacterMovement))]
+
 public class CharacterController : NetworkBehaviour
 {
     private CharacterMovement characterMovement;
@@ -9,8 +8,8 @@ public class CharacterController : NetworkBehaviour
     
     void Awake()
     {
-        characterMovement = GetComponent<CharacterMovement>();
-        coughAbility = GetComponent<CoughAbility>();
+        characterMovement = GetComponentInChildren<CharacterMovement>();
+        coughAbility = GetComponentInChildren<CoughAbility>();
     }
 
     void Update()
