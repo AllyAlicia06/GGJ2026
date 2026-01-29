@@ -16,7 +16,20 @@ public class CoughAbility : MonoBehaviour
 
     private float currentCooldown = 0f;
     private float currentChargeTime = 0f;
-    private bool isCharging = false;
+    private bool _isCharging = false;
+    public bool isCharging
+    {
+        get => _isCharging;
+        private set
+        {
+            _isCharging = value;
+            if (!value)
+            {
+                currentChargeTime = 0f;
+                if (rangeIndicator != null) rangeIndicator.gameObject.SetActive(false);
+            }
+        }
+    }
 
     void Update()
     {
@@ -25,7 +38,7 @@ public class CoughAbility : MonoBehaviour
             currentCooldown -= Time.deltaTime;
             return;
         }
-        if (isCharging)
+        if (_isCharging)
         {
             currentChargeTime += Time.deltaTime;
 
@@ -42,19 +55,19 @@ public class CoughAbility : MonoBehaviour
     public void BeginCharge()
     {
         if(currentCooldown > 0) return;
-        if(isCharging) return;
-        isCharging = true;
+        if(_isCharging) return;
+        _isCharging = true;
         currentChargeTime = 0f;
     }
     public void ReleaseCharge()
     {
-        if(!isCharging) return;
+        if(!_isCharging) return;
         FireCough();
     }
 
     void FireCough()
     {
-        isCharging = false;
+        _isCharging = false;
         if (rangeIndicator != null) rangeIndicator.gameObject.SetActive(false);
 
         float chargePercent = Mathf.Clamp01(currentChargeTime / timeToMaxCharge);
