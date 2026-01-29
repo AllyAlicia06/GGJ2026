@@ -9,11 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/CharacterSelect/CharacterSelect.unity
-    guid: b7544d5a30d9eed449267cef7699537b
-  - enabled: 1
     path: Assets/Scenes/Gameplay.unity
     guid: fd944f928e3cdc84686a7562695b5c1d
+  - enabled: 1
+    path: Assets/Scenes/flaf testing grounds.unity
+    guid: 8160d0e1bbd173844964bd63c7e10f4f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
