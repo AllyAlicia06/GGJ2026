@@ -12,5 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cecbbb802c615064cba225591d197be8, type: 3}
   m_Name: Default Flock Behavior
   m_EditorClassIdentifier: Assembly-CSharp::CompositeBehavior
-  behaviors: []
-  weights: []
+  behaviors:
+  - {fileID: 11400000, guid: 8103a80c264493244bef1f83d0b29c7f, type: 2}
+  - {fileID: 11400000, guid: f7f464e3eddaa2840a0776750bf4e56e, type: 2}
+  - {fileID: 11400000, guid: 443da6b66328bc745bc614cbf3054b82, type: 2}
+  - {fileID: 11400000, guid: 19d15a2b16bd88a42b9a811cbe315c55, type: 2}
+  weights:
+  - 0.2
+  - 0.3
+  - 1
+  - 0.5
