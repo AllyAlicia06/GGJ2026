@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/flaf testing grounds.unity
     guid: 8160d0e1bbd173844964bd63c7e10f4f
+  - enabled: 1
+    path: Assets/Scenes/alicia.unity
+    guid: cbaf836774dfa654f94100af9a7d5661
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

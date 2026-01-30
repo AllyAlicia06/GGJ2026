@@ -3,20 +3,22 @@ using Unity.Netcode;
 
 public class CharacterControllerCustom : NetworkBehaviour
 {
-    private CharacterMovement characterMovement;
-    private CoughAbility coughAbility;
+    protected CharacterMovement characterMovement;
+    //private CoughAbility coughAbility;
     
-    private 
-    void Awake()
+    protected virtual void Awake()
     {
         characterMovement = GetComponentInChildren<CharacterMovement>();
-        coughAbility = GetComponentInChildren<CoughAbility>();
+        //coughAbility = GetComponentInChildren<CoughAbility>();
+        
+        //vezi ca am modificat aici ca sa fie structura ok la guard si las cu override la amandoua si la una pun cure si la alta punem cough
     }
     void Update()
     {
         if (!IsOwner) return;
 
         HandleMovementInput();
+        HandleSprintInput();
         HandleAbilityInput();
     }
 
@@ -27,22 +29,10 @@ public class CharacterControllerCustom : NetworkBehaviour
 
         Vector2 inputVector = new Vector2(x, y).normalized;
         characterMovement.SetMovementInput(inputVector);
-
-        
     }
 
-    void HandleAbilityInput()
+    void HandleSprintInput()
     {
-        
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            coughAbility.BeginCharge();
-            
-        }
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            coughAbility.ReleaseCharge();
-        }
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             characterMovement.IsSprinting = true;
@@ -51,6 +41,19 @@ public class CharacterControllerCustom : NetworkBehaviour
         {
             characterMovement.IsSprinting = false;
         }
+    }
+    
+    protected virtual void HandleAbilityInput()
+    {
+        /*if (Input.GetKeyDown(KeyCode.Space))
+        {
+            coughAbility.BeginCharge();
+            
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            coughAbility.ReleaseCharge();
+        }
         if(coughAbility.isCharging && !characterMovement.IsCoughing)
         {
             characterMovement.IsCoughing = true;
@@ -58,7 +61,7 @@ public class CharacterControllerCustom : NetworkBehaviour
         else if(!coughAbility.isCharging && characterMovement.IsCoughing)
         {
             characterMovement.IsCoughing = false;
-        }
+        }*/
        
     }
 }
