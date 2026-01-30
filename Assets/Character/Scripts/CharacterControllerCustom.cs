@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class CharacterController : NetworkBehaviour
+public class CharacterControllerCustom : NetworkBehaviour
 {
     private CharacterMovement characterMovement;
     private CoughAbility coughAbility;

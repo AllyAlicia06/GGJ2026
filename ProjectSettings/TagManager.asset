@@ -3,7 +3,6 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  serializedVersion: 3
   tags: []
   layers:
   - Default
@@ -12,8 +11,13 @@ TagManager:
   - 
   - Water
   - UI
-  - NPC
   - 
+  - 
+  - Level
+  - 
+  - 
+  - 
+  - NPC
   - 
   - 
   - 
@@ -33,14 +37,21 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Level
+    uniqueID: 2234668003
+    locked: 0
+  - name: NPC
+    uniqueID: 4018107641
+    locked: 0
+  - name: AbilityRangeIndicators
+    uniqueID: 726119105
+    locked: 0
+  - name: Player
+    uniqueID: 591282567
     locked: 0
   m_RenderingLayers:
   - Default
