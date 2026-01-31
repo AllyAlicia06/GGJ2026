@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 
 
 
 
-public class Flock : MonoBehaviour
+public class Flock : NetworkBehaviour
 {
 
     public FlockAgent agentPrefab;
@@ -59,6 +60,7 @@ public class Flock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!IsServer) return;
         foreach (FlockAgent agent in agents)
         {
             List<Transform> context = GetNearbyObjects(agent);
