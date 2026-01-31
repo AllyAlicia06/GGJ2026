@@ -11,8 +11,6 @@ public class CoughAbility : NetworkBehaviour
     public float cooldownDuration = 5f;
     public LayerMask targetLayer; 
 
-    public NetworkVariable<float> currentCooldown = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    private float lastServerTime;
     [Header("Visual Indicator")]
     [Tooltip("Use a circle transform with scale = 2 * minRange to indicate the range of the cough.")]
     public Transform rangeIndicator;
@@ -38,24 +36,6 @@ public class CoughAbility : NetworkBehaviour
             }
         }
     }
-    public override void OnNetworkSpawn()
-    {
-        if(IsServer) lastServerTime = Time.time;
-    }
-    // void Update()
-    // {
-    //     //if(currentCooldown > 0f) currentCooldown -= Time.deltaTime;
-    //     if (IsServer)
-    //     {
-    //         float now = Time.time;
-    //         float dt =  now - lastServerTime;
-    //         lastServerTime = now;
-            
-    //         if(CooldownRemaining.Value > 0f)
-    //             CooldownRemaining.Value = Mathf.Max(0f, CooldownRemaining.Value - dt);
-    //     }
-    // }
-
 
     public override void OnNetworkSpawn()
     {
@@ -94,12 +74,9 @@ public class CoughAbility : NetworkBehaviour
                 rangeIndicator.localScale = Vector3.one * (currentRadius * 2f); 
             }
         }
-        }
     }
 
-  
-  
-     public void BeginCharge()
+    public void BeginCharge()
     {
         if (!IsOwner) return;
         if(CooldownRemaining.Value > 0f) return;
