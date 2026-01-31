@@ -41,6 +41,7 @@ public class CureAbility : NetworkBehaviour
 
     public void TryCure()
     {
+        
         if (!IsOwner) return;
         TryCureServerRpc();
     }
