@@ -39,23 +39,6 @@ public class CureAbility : NetworkBehaviour
         }
     }
 
-    /*public void TryCure()
-    {
-        if (currentCooldown > 0f)
-        {
-            Debug.Log($"Cooldown {currentCooldown:0.00}s");
-            return;
-        }
-        
-        NpcInfected target = FindClosestInfected();
-        if (target == null) return;
-        
-        target.CureServer();
-        Debug.Log($"Cured {target.name}");
-        
-        currentCooldown = cooldown;
-    }*/
-
     public void TryCure()
     {
         

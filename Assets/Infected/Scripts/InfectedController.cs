@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 public class InfectedController : CharacterControllerCustom
 {
-
     private CoughAbility coughAbility;
     private void Awake()
     {
