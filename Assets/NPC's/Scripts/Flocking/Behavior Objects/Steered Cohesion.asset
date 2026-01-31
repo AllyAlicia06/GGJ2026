@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Steered Cohesion
   m_EditorClassIdentifier: Assembly-CSharp::SteeredCohesionBehavior
   filter: {fileID: 11400000, guid: 0b001fc7060a57f41a374e31c44c3143, type: 2}
-  smoothTime: 0.5
+  smoothTime: 0.2

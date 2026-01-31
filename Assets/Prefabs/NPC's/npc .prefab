@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 155106615382796773}
   - component: {fileID: 5579418995221681972}
   - component: {fileID: 7293907652016933982}
-  m_Layer: 16
+  m_Layer: 12
   m_Name: 'npc '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,9 +48,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
-  m_LinearDamping: 100
-  m_AngularDamping: 100
+  m_Mass: 10
+  m_LinearDamping: 10
+  m_AngularDamping: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -58,7 +58,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -79,7 +79,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 66048
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 430652970060297429}
   - component: {fileID: 801940543785150891}
   - component: {fileID: 304942032055535696}
-  m_Layer: 16
+  m_Layer: 12
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,16 +216,16 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2941647224992925014}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 66048
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4407
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -294,7 +294,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 67584
+    m_Bits: 68096
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

@@ -14,7 +14,7 @@ TagManager:
   - 
   - 
   - Level
-  - 
+  - Obstacle
   - 
   - 
   - NPC
@@ -22,7 +22,7 @@ TagManager:
   - 
   - 
   - Player
-  - 
+  - Player_Avoidance
   - 
   - 
   - 

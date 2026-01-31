@@ -359,13 +359,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2648156684414938105}
   - component: {fileID: 4317109054611994728}
-  - component: {fileID: 5168840687865448535}
   - component: {fileID: 3077952194486828231}
   - component: {fileID: 6821837695603930476}
   - component: {fileID: 8847853496720873003}
   - component: {fileID: 8953933951163836885}
   - component: {fileID: 6524379216388176713}
   - component: {fileID: 7912617596546648645}
+  - component: {fileID: -1767543735631223255}
   m_Layer: 16
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -419,19 +419,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &5168840687865448535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8069666193712551755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4abe9ef30075a594baf716d3dc3d074d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterController
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!50 &3077952194486828231
 Rigidbody2D:
   serializedVersion: 5
@@ -589,6 +576,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   cam: {fileID: 8051169077682909842}
   listener: {fileID: 2477386884164741869}
+--- !u!114 &-1767543735631223255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8069666193712551755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d0b86cd92b7c7940a8c4ee8b62a256b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InfectedController
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &8138670992473606912
 GameObject:
   m_ObjectHideFlags: 0
