@@ -363,11 +363,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a69fe859be8e1942a7ef49fde3ab5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CureAbility
+  ShowTopMostFoldoutHeaderGroup: 1
   range: 0.5
   cooldown: 2.5
   targetLayer:
     serializedVersion: 2
-    m_Bits: 65536
+    m_Bits: 69632
+  CooldownRemaining:
+    m_InternalValue: 0
 --- !u!1 &8069666193712551755
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +386,8 @@ GameObject:
   - component: {fileID: 8847853496720873003}
   - component: {fileID: 8953933951163836885}
   - component: {fileID: 7817467005572126366}
+  - component: {fileID: 6513183063972686546}
+  - component: {fileID: 4204868344447194582}
   m_Layer: 16
   m_Name: GuardPlayerPrefab
   m_TagString: Untagged
@@ -540,7 +545,7 @@ MonoBehaviour:
   RotationMaxInterpolationTime: 0.1
   ScaleLerpSmoothing: 1
   ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
+  AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 0
   SyncPositionX: 1
@@ -575,6 +580,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuardController
   ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &6513183063972686546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8069666193712551755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f85f865d4dc945429a4f83137c7a10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCharacter
+  ShowTopMostFoldoutHeaderGroup: 1
+  CharacterId:
+    m_InternalValue: 0
+--- !u!114 &4204868344447194582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8069666193712551755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aba4b7f64024c3498e957e8f78fc020, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalCameraEnabler
+  ShowTopMostFoldoutHeaderGroup: 1
+  cam: {fileID: 8051169077682909842}
+  listener: {fileID: 2477386884164741869}
 --- !u!1 &8138670992473606912
 GameObject:
   m_ObjectHideFlags: 0
