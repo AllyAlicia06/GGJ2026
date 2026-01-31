@@ -147,7 +147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3210591331342932669}
   - component: {fileID: 2436726877656438212}
-  m_Layer: 15
+  m_Layer: 17
   m_Name: AvoidanceHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -359,11 +359,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2648156684414938105}
   - component: {fileID: 4317109054611994728}
-  - component: {fileID: 5168840687865448535}
   - component: {fileID: 3077952194486828231}
   - component: {fileID: 6821837695603930476}
   - component: {fileID: 8847853496720873003}
   - component: {fileID: 8953933951163836885}
+  - component: {fileID: 8757685667885057732}
   m_Layer: 16
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -417,19 +417,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &5168840687865448535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8069666193712551755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4abe9ef30075a594baf716d3dc3d074d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterController
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!50 &3077952194486828231
 Rigidbody2D:
   serializedVersion: 5
@@ -557,6 +544,19 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &8757685667885057732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8069666193712551755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d0b86cd92b7c7940a8c4ee8b62a256b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InfectedController
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &8138670992473606912
 GameObject:
   m_ObjectHideFlags: 0

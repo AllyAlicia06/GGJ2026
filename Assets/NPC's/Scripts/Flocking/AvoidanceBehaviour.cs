@@ -9,6 +9,11 @@ using System.Collections.Generic;
 public class AvoidanceBehaviour : FilteredFlockBehavior
 {   
     public float smoothTime = 0.1f;
+    public float avoidanceRadius = 1.0f;
+
+    float squareAvoidanceRadius;
+
+
     public override Vector2 CalculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {
         // If no neighbors, return no adjustment
@@ -24,7 +29,7 @@ public class AvoidanceBehaviour : FilteredFlockBehavior
         {
            //Debug.Log("Checking avoidance for " + item.name);
            Vector3 closestPoint = item.gameObject.GetComponent<Collider2D>().ClosestPoint(agent.transform.position);
-           if (Vector2.SqrMagnitude(closestPoint-agent.transform.position) < flock.SquareAvoidanceRadius)
+           if (Vector2.SqrMagnitude(closestPoint-agent.transform.position) < squareAvoidanceRadius)
            {
              nAvoid++;
              avoidanceMove += (Vector2)(agent.transform.position - closestPoint);
@@ -35,5 +40,20 @@ public class AvoidanceBehaviour : FilteredFlockBehavior
 
         //avoidanceMove = Vector2.SmoothDamp(agent.transform.up, avoidanceMove, ref agent.avoidanceVelocity, smoothTime);
         return avoidanceMove;
+    }
+
+   public void OnDrawGizmos()
+   {
+       Gizmos.color = Color.yellow;
+       Gizmos.DrawWireSphere(Vector3.zero, avoidanceRadius);
+    }
+
+    private void OnValidate()
+    {
+        squareAvoidanceRadius = avoidanceRadius * avoidanceRadius;
+    }
+    private void OnEnable()
+    {
+        squareAvoidanceRadius = avoidanceRadius * avoidanceRadius;
     }
 }
