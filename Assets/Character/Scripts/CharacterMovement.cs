@@ -1,6 +1,5 @@
 using UnityEngine;
-
-
+using Unity.Netcode;
 
 public class CharacterMovement : MonoBehaviour
 {
@@ -34,14 +33,25 @@ public class CharacterMovement : MonoBehaviour
     }
     private Rigidbody2D rb;
     private Vector2 currentInput;
+    private NetworkObject rootNetObj;
+    
     void Awake()
     {
         rb = GetComponentInParent<Rigidbody2D>();
         rb.gravityScale = 0;
+
+        //netObj = GetComponentInParent<NetworkObject>();
+        var all = GetComponentsInParent<NetworkObject>(true);
+        if (all != null && all.Length > 0)
+            rootNetObj = all[all.Length - 1];
     }
 
     private void FixedUpdate()
     {
+        if (rootNetObj != null && !rootNetObj.IsOwner) return;
+        if (rootNetObj != null)
+            Debug.Log($"{name} rootNetObj={rootNetObj.name} IsOwner={rootNetObj.IsOwner} OwnerClientId={rootNetObj.OwnerClientId} LocalClientId={NetworkManager.Singleton.LocalClientId}");
+        
         _currentSpeedMultiplier = Mathf.Lerp(_currentSpeedMultiplier, _targetSpeedMultiplier, Time.fixedDeltaTime / sprintAccelerationSmoothTime);
 
         if(currentInput == Vector2.zero)

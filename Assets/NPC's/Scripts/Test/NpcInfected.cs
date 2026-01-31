@@ -1,39 +1,70 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
-public class NpcInfected : MonoBehaviour
+public class NpcInfected : NetworkBehaviour
 {
     [Header("State")]
-    public bool isInfected = true;
+    public NetworkVariable<bool> isInfected = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     
     [Header("Visuals")]
     public SpriteRenderer spriteRenderer;
     public Color infectedColor = Color.red;
     public Color healthyColor = Color.green;
 
+    private GameState gamestate;
+
+    [ServerRpc(RequireOwnership = false)]
+    public void InfectServerRpc() => isInfected.Value = true;
+    
+    [ServerRpc(RequireOwnership = false)]
+    public void CureServerRpc() => isInfected.Value = false;
+    
     private void Awake()
     {
         if(spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
-        ApplyVisual();
     }
 
-    public void Infect()
+    public override void OnNetworkSpawn()
     {
-        isInfected = true;
-        ApplyVisual();
+        gamestate = FindFirstObjectByType<GameState>();
+        
+        ApplyVisual(isInfected.Value);
+        isInfected.OnValueChanged += OnInfectedChanged;
+        
+        if(IsServer && gamestate != null)
+            gamestate.OnNpcInfectionChanged(NetworkObjectId, isInfected.Value);
     }
 
-    public void Cure()
+    public override void OnNetworkDespawn()
     {
-        isInfected = false;
-        ApplyVisual();
+        isInfected.OnValueChanged -= OnInfectedChanged;
     }
 
-    void ApplyVisual()
+    private void OnInfectedChanged(bool oldValue, bool newValue)
+    {
+        ApplyVisual(newValue);
+
+        if(IsServer && gamestate != null)
+            gamestate.OnNpcInfectionChanged(NetworkObjectId, newValue);
+    }
+    
+    void ApplyVisual(bool infected)
     {
         if (spriteRenderer == null) return;
-        spriteRenderer.color = isInfected ? infectedColor : healthyColor;
+        spriteRenderer.color = infected ? infectedColor : healthyColor;
+    }
+
+    public void InfectServer()
+    {
+        if (!IsServer) return;
+        isInfected.Value = true;
+    }
+
+    public void CureServer()
+    {
+        if (!IsServer) return;
+        isInfected.Value = false;
     }
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: InfectedPlayer
   m_EditorClassIdentifier: Assembly-CSharp::Character
   id: 0
-  displayName: New Display Name
+  displayName: Infected
   icon: {fileID: 21300000, guid: 9b09337dc6b0cb84390fe4f46ca89848, type: 3}
-  prefab: {fileID: 2813078559415536755, guid: 5139d6d768c0bbb4b917c83c5ab8d74b, type: 3}
+  prefab: {fileID: 4317109054611994728, guid: 50ab9e14cc65dfe4cab210b6af8b574a, type: 3}
