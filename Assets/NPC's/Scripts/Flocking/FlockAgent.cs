@@ -23,8 +23,8 @@ public class FlockAgent : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _agentCollider = GetComponent<Collider2D>();
-        //_agentCollider = GetComponentsInChildren<Collider2D>()[1];
+        //_agentCollider = GetComponent<Collider2D>();
+        _agentCollider = GetComponentsInChildren<Collider2D>()[0];
         Debug.Log("Collider for " + gameObject.name + " is " + _agentCollider.name);
         _spriteTransform = GetComponentInChildren<SpriteRenderer>().transform;
     }
@@ -42,9 +42,9 @@ public class FlockAgent : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, 1f);
+        Gizmos.DrawWireSphere(transform.position, AgentFlock.neighborRadius);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 0.4f);
+        Gizmos.DrawWireSphere(transform.position, agentFlock.avoidanceRadiusMultiplier * AgentFlock.neighborRadius);
     }
 
     void LateUpdate()

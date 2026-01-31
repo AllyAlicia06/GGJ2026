@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aae05f86ea88a76478b4f7f973761184, type: 3}
   m_Name: Avoid Player
   m_EditorClassIdentifier: Assembly-CSharp::AvoidanceBehaviour
-  filter: {fileID: 0}
+  filter: {fileID: 11400000, guid: cafb843fd20c58a49a91d57c8102183f, type: 2}
   smoothTime: 0.1
+  avoidanceRadius: 0.35
