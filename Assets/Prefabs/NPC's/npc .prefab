@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 155106615382796773}
   - component: {fileID: 5579418995221681972}
   - component: {fileID: 7293907652016933982}
-  - component: {fileID: 3442646913252454857}
+  - component: {fileID: 32834803526907235}
   - component: {fileID: 7213133645840954673}
   m_Layer: 12
   m_Name: 'npc '
@@ -119,7 +119,7 @@ MonoBehaviour:
   cohesionVelocity: {x: 0, y: 0}
   avoidanceVelocity: {x: 0, y: 0}
   alignmentVelocity: {x: 0, y: 0}
---- !u!114 &3442646913252454857
+--- !u!114 &32834803526907235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1424028918
+  GlobalObjectIdHash: 1951223817
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
