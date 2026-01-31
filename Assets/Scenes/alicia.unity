@@ -28363,6 +28363,7 @@ GameObject:
   - component: {fileID: 288560864}
   - component: {fileID: 288560863}
   - component: {fileID: 288560862}
+  - component: {fileID: 288560866}
   - component: {fileID: 288560861}
   m_Layer: 16
   m_Name: InfectedNPC
@@ -28383,7 +28384,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0397907125fefa84987867382a00a970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NpcInfected
-  isInfected: 1
+  ShowTopMostFoldoutHeaderGroup: 1
+  isInfected:
+    m_InternalValue: 1
   spriteRenderer: {fileID: 288560862}
   infectedColor: {r: 1, g: 0, b: 0, a: 1}
   healthyColor: {r: 0, g: 1, b: 0, a: 1}
@@ -28525,6 +28528,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &288560866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288560860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 288984805
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &658144483
 GameObject:
   m_ObjectHideFlags: 0
@@ -28537,6 +28565,7 @@ GameObject:
   - component: {fileID: 658144487}
   - component: {fileID: 658144486}
   - component: {fileID: 658144485}
+  - component: {fileID: 658144489}
   - component: {fileID: 658144484}
   m_Layer: 16
   m_Name: InfectedNPC (2)
@@ -28557,7 +28586,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0397907125fefa84987867382a00a970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NpcInfected
-  isInfected: 1
+  ShowTopMostFoldoutHeaderGroup: 1
+  isInfected:
+    m_InternalValue: 1
   spriteRenderer: {fileID: 658144485}
   infectedColor: {r: 1, g: 0, b: 0, a: 1}
   healthyColor: {r: 0, g: 1, b: 0, a: 1}
@@ -28699,6 +28730,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &658144489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658144483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 1517648181
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &736353137
 GameObject:
   m_ObjectHideFlags: 0
@@ -29131,6 +29187,7 @@ GameObject:
   - component: {fileID: 1311522273}
   - component: {fileID: 1311522272}
   - component: {fileID: 1311522271}
+  - component: {fileID: 1311522275}
   - component: {fileID: 1311522270}
   m_Layer: 16
   m_Name: InfectedNPC (1)
@@ -29151,7 +29208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0397907125fefa84987867382a00a970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NpcInfected
-  isInfected: 1
+  ShowTopMostFoldoutHeaderGroup: 1
+  isInfected:
+    m_InternalValue: 1
   spriteRenderer: {fileID: 1311522271}
   infectedColor: {r: 1, g: 0, b: 0, a: 1}
   healthyColor: {r: 0, g: 1, b: 0, a: 1}
@@ -29293,6 +29352,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1311522275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311522269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 1288663910
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1 &1430921631
 GameObject:
   m_ObjectHideFlags: 0

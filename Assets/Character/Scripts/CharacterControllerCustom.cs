@@ -21,6 +21,12 @@ public class CharacterControllerCustom : NetworkBehaviour
         HandleSprintInput();
         HandleAbilityInput();
     }
+    
+    public override void OnNetworkSpawn()
+    {
+        Debug.Log($"[{name}] IsOwner={IsOwner} OwnerClientId={OwnerClientId} LocalClientId={NetworkManager.Singleton.LocalClientId}");
+        enabled = IsOwner;
+    }
 
     void HandleMovementInput()
     {
