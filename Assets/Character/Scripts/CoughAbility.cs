@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Netcode;
 
-public class CoughAbility : MonoBehaviour
+public class CoughAbility : NetworkBehaviour
 {
     [Header("Settings")]
     public float minRange = 0.5f;
@@ -12,11 +13,16 @@ public class CoughAbility : MonoBehaviour
 
     [Header("Visual Indicator")]
     [Tooltip("Use a circle transform with scale = 2 * minRange to indicate the range of the cough.")]
-    public Transform rangeIndicator; 
+    public Transform rangeIndicator;
 
-    private float currentCooldown = 0f;
+    public NetworkVariable<float> CooldownRemaining = new NetworkVariable<float>(0f,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+
+    private float lastServerTime;
+    
     private float currentChargeTime = 0f;
     private bool _isCharging = false;
+    
     public bool isCharging
     {
         get => _isCharging;
@@ -31,13 +37,31 @@ public class CoughAbility : MonoBehaviour
         }
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if(IsServer) lastServerTime = Time.time;
+
+        if (!IsOwner)
+        {
+            if(rangeIndicator != null) rangeIndicator.gameObject.SetActive(false);
+        }
+    }
+    
     void Update()
     {
-        if (currentCooldown > 0)
+        if (IsServer)
         {
-            currentCooldown -= Time.deltaTime;
-            return;
+            float now = Time.time;
+            float dt = now - lastServerTime;
+            lastServerTime = now;
+            
+            if(CooldownRemaining.Value > 0f)
+                CooldownRemaining.Value = Mathf.Max(0f, CooldownRemaining.Value - dt);
         }
+
+        if (!IsOwner) return;
+        if (CooldownRemaining.Value > 0f) return;
+        
         if (_isCharging)
         {
             currentChargeTime += Time.deltaTime;
@@ -54,37 +78,50 @@ public class CoughAbility : MonoBehaviour
 
     public void BeginCharge()
     {
-        if(currentCooldown > 0) return;
+        if (!IsOwner) return;
+        if(CooldownRemaining.Value > 0f) return;
         if(_isCharging) return;
         _isCharging = true;
         currentChargeTime = 0f;
     }
+    
     public void ReleaseCharge()
     {
+        if (!IsOwner) return;
         if(!_isCharging) return;
-        FireCough();
+        
+        _isCharging = false;
+        if(rangeIndicator != null) rangeIndicator.gameObject.SetActive(false);
+        
+        float chargePercent = Mathf.Clamp01(currentChargeTime / timeToMaxCharge);
+        FireCoughServerRpc(chargePercent);
     }
 
-    void FireCough()
+    [ServerRpc]
+    void FireCoughServerRpc(float chargePercent, ServerRpcParams rpcParams = default)
     {
-        _isCharging = false;
-        if (rangeIndicator != null) rangeIndicator.gameObject.SetActive(false);
-
-        float chargePercent = Mathf.Clamp01(currentChargeTime / timeToMaxCharge);
+        if (rpcParams.Receive.SenderClientId != OwnerClientId) return;
+        if(CooldownRemaining.Value > 0f) return;
+        
+        chargePercent = Mathf.Clamp01(chargePercent);
         float finalRadius = Mathf.Lerp(minRange, maxRange, chargePercent);
-
         
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, finalRadius, targetLayer);
 
         foreach (Collider2D hit in hits)
         {
 
-            if (hit.gameObject == gameObject) continue;
+            if(hit == null) continue;
 
-            Debug.Log($"Coughed on: {hit.name}");
+            var npc = hit.GetComponentInParent<NpcInfected>();
+            if(npc == null) continue;
+            if (npc.isInfected.Value) continue;
+
+            npc.InfectServer();
             
+            Debug.Log($"Coughed on: {hit.name}");
         }
-        currentCooldown = cooldownDuration;
+        CooldownRemaining.Value = cooldownDuration;
     }
     void OnDrawGizmosSelected()
     {

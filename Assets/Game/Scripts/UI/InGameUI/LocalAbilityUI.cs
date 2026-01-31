@@ -14,7 +14,7 @@ public class LocalAbilityUI : MonoBehaviour
 
     [Header("Character IDs")] 
     [SerializeField] private int infectedId = 0;
-    [SerializeField] private int guardId = 0;
+    [SerializeField] private int guardId = 1;
     
     [Range(0f, 1f)]
     [SerializeField] private float overlayAlphaOnCooldown = 0.55f;
@@ -37,14 +37,10 @@ public class LocalAbilityUI : MonoBehaviour
         localCough = localPlayer.GetComponentInChildren<CoughAbility>(true);
 
         if (localPlayerChar == null) return;
-
-        //ApplyCharacter(localPlayerChar.CharacterId.Value);
+        
         localPlayerChar.CharacterId.OnValueChanged += OnCharacterChanged;
 
         BindForCharacter(localPlayerChar.CharacterId.Value);
-
-        //HookCooldown();
-        //ApplyCooldownAlpha(GetCooldownRemaining());
     }
 
     private void OnDestroy()
@@ -68,8 +64,8 @@ public class LocalAbilityUI : MonoBehaviour
         var localPlayer = nm != null ? nm.SpawnManager.GetLocalPlayerObject() : null;
         if (localPlayer != null)
         {
-            localCure = localPlayer.GetComponentInChildren<CureAbility>();
-            localCough = localPlayer.GetComponentInChildren<CoughAbility>();
+            localCure = localPlayer.GetComponentInChildren<CureAbility>(true);
+            localCough = localPlayer.GetComponentInChildren<CoughAbility>(true);
         }
 
         UnhookCooldown();
@@ -90,8 +86,8 @@ public class LocalAbilityUI : MonoBehaviour
         if (localCure != null && characterId == guardId)
             localCure.CooldownRemaining.OnValueChanged += OnCooldownChanged;
 
-        //if (localCough != null && characterId == infectedId)
-            //localCough.CooldownRemaining.OnValueChanged += OnCooldownChanged;
+        if (localCough != null && characterId == infectedId)
+            localCough.CooldownRemaining.OnValueChanged += OnCooldownChanged;
     }
 
     private void UnhookCooldown()
@@ -99,8 +95,8 @@ public class LocalAbilityUI : MonoBehaviour
         if (localCure != null)
             localCure.CooldownRemaining.OnValueChanged -= OnCooldownChanged;
 
-        //if (localCough != null)
-            //localCough.CooldownRemaining.OnValueChanged -= OnCooldownChanged;
+        if (localCough != null)
+            localCough.CooldownRemaining.OnValueChanged -= OnCooldownChanged;
     }
 
     private void OnCooldownChanged(float oldV, float newV) => ApplyCooldownAlpha(newV);
@@ -108,7 +104,7 @@ public class LocalAbilityUI : MonoBehaviour
     private float GetCooldownRemaining(int characterId)
     {
         if (localCure != null && characterId == guardId) return localCure.CooldownRemaining.Value;
-        //if (localCough != null && characterId == infectedId) return localCough.CooldownRemaining.Value;
+        if (localCough != null && characterId == infectedId) return localCough.CooldownRemaining.Value;
         return 0f;
     }
 

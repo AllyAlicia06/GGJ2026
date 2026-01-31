@@ -341,6 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8dd9c2e63ba1bb4fb5116df5b81afab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoughAbility
+  ShowTopMostFoldoutHeaderGroup: 1
   minRange: 0.5
   maxRange: 2
   timeToMaxCharge: 2
@@ -349,6 +350,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   rangeIndicator: {fileID: 64348526415958649}
+  CooldownRemaining:
+    m_InternalValue: 0
 --- !u!1 &8069666193712551755
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,7 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2174675315
+  GlobalObjectIdHash: 553853122
   InScenePlacedSourceGlobalObjectIdHash: 3590865332
   DeferredDespawnTick: 0
   Ownership: 1
