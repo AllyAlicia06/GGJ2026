@@ -23,6 +23,7 @@ public class NpcInfected : NetworkBehaviour
     private void Awake()
     {
         if(spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
     }
 
     public override void OnNetworkSpawn()
@@ -67,15 +68,5 @@ public class NpcInfected : NetworkBehaviour
         isInfected.Value = false;
     }
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
