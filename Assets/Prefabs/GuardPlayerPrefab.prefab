@@ -367,7 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CureAbility
   ShowTopMostFoldoutHeaderGroup: 1
   range: 0.5
-  cooldown: 0
+  cooldown: 2.5
   targetLayer:
     serializedVersion: 2
     m_Bits: 4096
@@ -474,7 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1448816888
+  GlobalObjectIdHash: 2211549465
   InScenePlacedSourceGlobalObjectIdHash: 3590865332
   DeferredDespawnTick: 0
   Ownership: 1

@@ -56,7 +56,7 @@ public class InfectedController : CharacterControllerCustom
     {
         Debug.Log($"[InfectedController] SetCarriedState: {carried}", this);
         isCarried = carried;
-        //canMove = !carried;
+        canMove = !carried;
         if(carried)
         {
             characterMovement.SetMovementInput(Vector2.zero);
