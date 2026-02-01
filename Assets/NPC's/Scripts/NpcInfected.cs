@@ -51,17 +51,26 @@ public class NpcInfected : NetworkBehaviour
     }
     public void Initialize(bool infected)
     {
-        networkObject = GetComponent<NetworkObject>();
-        isInfected.Value = infected;
-        ApplyVisual(infected);
-        if(networkObject == null || !IsServer)
+        if (!IsServer)
         {
-            Debug.LogError("NetworkObject is null for NPC " + gameObject.name);
+            Debug.LogError($"Initialize called on CLIENT for NPC {gameObject.name}. Call it only on server.");
             return;
         }
 
-        networkObject.Spawn();
+        var netObj = GetComponent<NetworkObject>();
+        if (netObj == null)
+        {
+            Debug.LogError($"NPC {gameObject.name} has NO NetworkObject component on the root GameObject.");
+            return;
+        }
+        
+        if (!netObj.IsSpawned)
+            netObj.Spawn();
+        
+        isInfected.Value = infected;
+        ApplyVisual(infected);
     }
+
     public void ApplyVisual(bool infected)
     {
         if (spriteRenderer == null) return;
