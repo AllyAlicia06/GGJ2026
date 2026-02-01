@@ -159,7 +159,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   isInfected:
     m_InternalValue: 1
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 801940543785150891}
   infectedColor: {r: 1, g: 0, b: 0, a: 1}
   healthyColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &2941647224992925014

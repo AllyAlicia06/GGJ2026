@@ -11,7 +11,7 @@ public class NpcInfected : NetworkBehaviour
     public SpriteRenderer spriteRenderer;
     public Color infectedColor = Color.red;
     public Color healthyColor = Color.green;
-
+    NetworkObject networkObject;
     private GameState gamestate;
 
     [ServerRpc(RequireOwnership = false)]
@@ -49,8 +49,20 @@ public class NpcInfected : NetworkBehaviour
         if(IsServer && gamestate != null)
             gamestate.OnNpcInfectionChanged(NetworkObjectId, newValue);
     }
-    
-    void ApplyVisual(bool infected)
+    public void Initialize(bool infected)
+    {
+        networkObject = GetComponent<NetworkObject>();
+        isInfected.Value = infected;
+        ApplyVisual(infected);
+        if(networkObject == null || !IsServer)
+        {
+            Debug.LogError("NetworkObject is null for NPC " + gameObject.name);
+            return;
+        }
+
+        networkObject.Spawn();
+    }
+    public void ApplyVisual(bool infected)
     {
         if (spriteRenderer == null) return;
         spriteRenderer.color = infected ? infectedColor : healthyColor;
