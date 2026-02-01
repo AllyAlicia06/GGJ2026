@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using TMPro;
 using Unity.Netcode;
 
 
@@ -30,10 +31,17 @@ public class CheckTemperatureAbility : NetworkBehaviour
     }
     public NetworkVariable<float> CooldownRemaining = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private float lastServerTime;
+    
+    [SerializeField] private LocalAbilityUI localUI;
+    
     public override void OnNetworkSpawn()
     {
         if(IsServer) lastServerTime = Time.time;
+        
+        if (localUI == null)
+            localUI = FindFirstObjectByType<LocalAbilityUI>(FindObjectsInactive.Include);
     }
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -74,10 +82,32 @@ public class CheckTemperatureAbility : NetworkBehaviour
         if (rpcParams.Receive.SenderClientId != OwnerClientId) return;
         if (CooldownRemaining.Value > 0f) return;
 
+        NpcInfected target = FindNPCInRange();
+        if (target == null) return;
+        
+        float temp = target.isInfected.Value ? target.InfectedTemperature : target.HealthyTemperature;
+        
+        target.ToggleTemperature();
+        
+        var sendParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams { TargetClientIds = new[] { OwnerClientId } }
+        };
+        ShowTemperatureClientRpc(temp, sendParams);
         
         CooldownRemaining.Value = cooldown;
     }
 
+    [ClientRpc]
+    private void ShowTemperatureClientRpc(float temp, ClientRpcParams clientRpcParams = default)
+    {
+        if (localUI == null)
+            localUI = FindFirstObjectByType<LocalAbilityUI>(FindObjectsInactive.Include);
+
+        if (localUI != null)
+            localUI.SetTemperature(temp);
+    }
+    
     private NpcInfected FindNPCInRange()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position,beamThickness,characterMovement.GetLastDirection(),range, targetLayer);
