@@ -393,7 +393,7 @@ MonoBehaviour:
   beamThickness: 0.2
   isCarrying: 0
   cooldown: 2.5
-  _characterMovement: {fileID: 9059387943671563606}
+  _characterMovement: {fileID: 0}
   CooldownRemaining:
     m_InternalValue: 0
 --- !u!114 &4475139483007023648
@@ -474,7 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2211549465
+  GlobalObjectIdHash: 1448816888
   InScenePlacedSourceGlobalObjectIdHash: 3590865332
   DeferredDespawnTick: 0
   Ownership: 1
