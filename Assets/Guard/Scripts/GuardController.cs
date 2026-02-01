@@ -4,14 +4,17 @@ public class GuardController : CharacterControllerCustom
 {
     private CureAbility cureAbility;
     private CarryAbility carryAbility;
+    private CheckTemperatureAbility checkTemperatureAbility;
     protected override void Awake()
     {
         base.Awake();
         cureAbility = GetComponentInChildren<CureAbility>();
         carryAbility = GetComponentInChildren<CarryAbility>();
+        checkTemperatureAbility = GetComponentInChildren<CheckTemperatureAbility>();
         Debug.Log($"[Guard] cureAbility found? {cureAbility != null}", this);
         Debug.Log($"[Guard] carryAbility found? {carryAbility != null}", this);
         carryAbility.characterMovement = characterMovement;
+        checkTemperatureAbility.characterMovement = characterMovement;
     }
     
     //restul gen handlemovementinput ramane ca la charactercontrollercustom, fac eu alta clasa separata pentru infectat ...
@@ -37,5 +40,14 @@ public class GuardController : CharacterControllerCustom
                 carryAbility.TryCarry();
             }
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (checkTemperatureAbility != null)
+            {
+                Debug.Log("[Guard] F pressed", this);
+                checkTemperatureAbility.TryCheckTemperature();
+            }
+        }
+        
     }
 }
