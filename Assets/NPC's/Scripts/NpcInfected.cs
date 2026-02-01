@@ -13,10 +13,16 @@ public class NpcInfected : NetworkBehaviour
 
     [Header("Visuals")]
     public SpriteRenderer spriteRenderer;
-    public Color infectedColor = Color.red;
-    public Color healthyColor = Color.green;
 
-    private bool TemperatureIsToggled = false;
+    [Header("Local-only infection colors (infected player only)")]
+    [SerializeField] private Color infectedColor = Color.red;
+    [SerializeField] private Color healthyColor = Color.green;
+
+    [Header("Role IDs")]
+    [SerializeField] private int infectedCharacterId = 0;
+    [SerializeField] private int guardCharacterId = 1;
+
+    private bool temperatureFlashActive = false;
 
     private float _healthyTemperature = 37.0f;
     public float HealthyTemperature { get { return _healthyTemperature; } set { _healthyTemperature = value; } }
@@ -25,6 +31,10 @@ public class NpcInfected : NetworkBehaviour
     public float InfectedTemperature { get { return _infectedTemperature; } set { _infectedTemperature = value; } }
 
     private GameState gamestate;
+
+    // Local role cache
+    private int localCharacterId = -1;
+    private PlayerCharacter localPlayerCharacter;
 
     [ServerRpc(RequireOwnership = false)]
     public void InfectServerRpc() => isInfected.Value = true;
@@ -43,7 +53,9 @@ public class NpcInfected : NetworkBehaviour
     {
         gamestate = FindFirstObjectByType<GameState>();
 
-        ApplyVisual(isInfected.Value);
+        CacheLocalRoleAndSubscribe();
+
+        ApplyVisual();
         isInfected.OnValueChanged += OnInfectedChanged;
 
         if (IsServer && gamestate != null)
@@ -53,11 +65,14 @@ public class NpcInfected : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         isInfected.OnValueChanged -= OnInfectedChanged;
+
+        if (localPlayerCharacter != null)
+            localPlayerCharacter.CharacterId.OnValueChanged -= OnLocalCharacterChanged;
     }
 
     private void OnInfectedChanged(bool oldValue, bool newValue)
     {
-        ApplyVisual(newValue);
+        ApplyVisual();
 
         if (IsServer && gamestate != null)
             gamestate.OnNpcInfectionChanged(NetworkObjectId, newValue);
@@ -69,45 +84,79 @@ public class NpcInfected : NetworkBehaviour
         if (!IsServer) return;
 
         isInfected.Value = infected;
-        ApplyVisual(infected);
+        // No need to force visuals here; clients will handle visuals locally via ApplyVisual()
     }
 
-    public void ApplyVisual(bool infected)
+    private void CacheLocalRoleAndSubscribe()
+    {
+        var nm = NetworkManager.Singleton;
+        if (nm == null || nm.SpawnManager == null) return;
+
+        var localPlayerObj = nm.SpawnManager.GetLocalPlayerObject();
+        if (localPlayerObj == null) return;
+
+        localPlayerCharacter = localPlayerObj.GetComponent<PlayerCharacter>();
+        if (localPlayerCharacter == null) return;
+
+        localCharacterId = localPlayerCharacter.CharacterId.Value;
+        localPlayerCharacter.CharacterId.OnValueChanged += OnLocalCharacterChanged;
+    }
+
+    private void OnLocalCharacterChanged(int oldId, int newId)
+    {
+        localCharacterId = newId;
+        ApplyVisual();
+    }
+
+    private bool LocalIsInfectedPlayer()
+    {
+        return localCharacterId == infectedCharacterId;
+    }
+
+    private bool LocalIsGuard()
+    {
+        return localCharacterId == guardCharacterId;
+    }
+
+    private void ApplyVisual()
     {
         if (spriteRenderer == null) return;
-        spriteRenderer.color = infected ? infectedColor : healthyColor;
+
+        // Guard sees no infection tint (white), except temporary blue flash.
+        if (temperatureFlashActive)
+            return;
+
+        if (LocalIsInfectedPlayer())
+        {
+            spriteRenderer.color = isInfected.Value ? infectedColor : healthyColor;
+        }
+        else
+        {
+            spriteRenderer.color = Color.white;
+        }
     }
 
     public void InfectServer()
     {
         if (!IsServer) return;
         isInfected.Value = true;
-        ApplyVisual(true);
     }
 
     public void CureServer()
     {
-        Debug.Log("CureServer called on NPC " + gameObject.name);
         if (!IsServer) return;
         isInfected.Value = false;
-        ApplyVisual(false);
     }
 
+    // Visual-only cue for the guard when checking temperature.
     public void ToggleTemperature()
     {
-        //if (!IsServer) return;
-        if (TemperatureIsToggled) 
-        {
-            if (spriteRenderer != null)
-            spriteRenderer.color = Color.blue;
-            return;
-        }
+        // Only the guard should see the blue flash.
+        if (!LocalIsGuard()) return;
 
-        TemperatureIsToggled = true;
+        if (temperatureFlashActive) return;
 
-        // Just for visual feedback, not changing actual infection state
-        float currentTemp = isInfected.Value ? InfectedTemperature : HealthyTemperature;
-        Debug.Log("Toggling temperature visual for NPC " + currentTemp);
+        temperatureFlashActive = true;
 
         if (spriteRenderer != null)
             spriteRenderer.color = Color.blue;
@@ -115,10 +164,10 @@ public class NpcInfected : NetworkBehaviour
         StartCoroutine(ResetColorAfterDelay(0.5f));
     }
 
-    IEnumerator ResetColorAfterDelay(float delay)
+    private IEnumerator ResetColorAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        ApplyVisual(isInfected.Value);
-        TemperatureIsToggled = false;
+        temperatureFlashActive = false;
+        ApplyVisual(); // re-apply according to local role
     }
 }
