@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+
 using Unity.Netcode;
 using UnityEngine;
 
@@ -63,7 +64,7 @@ public class NpcInfected : NetworkBehaviour
         networkObject = GetComponent<NetworkObject>();
         isInfected.Value = infected;
         ApplyVisual(infected);
-        if(networkObject == null || !IsServer)
+        if(networkObject == null )
         {
             Debug.LogError("NetworkObject is null for NPC " + gameObject.name);
             return;
@@ -81,12 +82,16 @@ public class NpcInfected : NetworkBehaviour
     {
         if (!IsServer) return;
         isInfected.Value = true;
+        ApplyVisual(true);
+
     }
 
     public void CureServer()
     {
+        Debug.Log("CureServer called on NPC " + gameObject.name);
         if (!IsServer) return;
         isInfected.Value = false;
+        ApplyVisual(false);
     }
 
     public void ToggleTemperature()
