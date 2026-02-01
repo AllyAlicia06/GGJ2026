@@ -3,6 +3,8 @@ using System;
 using Unity.Netcode;
 
 
+
+
 public class CarryAbility : NetworkBehaviour
 {
 
@@ -13,7 +15,7 @@ public class CarryAbility : NetworkBehaviour
     private GameObject highlightObject = null;
     //private InfectedController currentCarriedCharacterMovement;
     public bool isCarrying = false;
-    
+    private Transform carryPosition;
 
     public float cooldown = 2.5f;
 
@@ -32,6 +34,7 @@ public class CarryAbility : NetworkBehaviour
     }
     public NetworkVariable<float> CooldownRemaining = new NetworkVariable<float>(0f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private float lastServerTime;
+    private NetworkObject carriedNetworkObject;
     public override void OnNetworkSpawn()
     {
         if(IsServer) lastServerTime = Time.time;
@@ -57,10 +60,7 @@ public class CarryAbility : NetworkBehaviour
                 CooldownRemaining.Value = Mathf.Max(0f, CooldownRemaining.Value - dt);
         }
         if(!IsOwner) return;
-        if(carriedObject != null && isCarrying)
-        {
-            carriedObject.transform.position = transform.position + Vector3.up * 0.5f;
-        }
+       
         if(!isCarrying && carriedObject != null)
         {
             carriedObject = null;
@@ -75,30 +75,51 @@ public class CarryAbility : NetworkBehaviour
     {
         
         if (!IsOwner) return;
+        if (CooldownRemaining.Value > 0f) return;
         if(isCarrying)
         {
-            carriedObject.GetComponent<InfectedController>().SetCarriedState(false);
-            carriedObject = null;
+            if(carriedNetworkObject != null)
+            {
+                carriedNetworkObject.TryRemoveParent();
+                InfectedController target = carriedNetworkObject.GetComponent<InfectedController>();
+                if (target != null)
+                {
+                    target.SetCarriedState(false);
+                }
+                carriedNetworkObject = null;
+            }
             isCarrying = false;
             return;
         }
-        TryCarryServerRpc();
+        else{
+        InfectedController target = FindPlayerInRange();
+        if (target == null) return;
+        NetworkObject carriedNetObject = target.GetComponent<NetworkObject>();
+        if(carriedNetObject == null) return;
+        TryCarryServerRpc(carriedNetObject.NetworkObjectId);
+        }
     }
 
     [ServerRpc]
-    private void TryCarryServerRpc(ServerRpcParams rpcParams = default)
+    private void TryCarryServerRpc(ulong networkObjectId, ServerRpcParams rpcParams = default)
     {
         if (rpcParams.Receive.SenderClientId != OwnerClientId) return;
-        if (CooldownRemaining.Value > 0f) return;
+        Debug.Log($"[CarryAbility] TryCarryServerRpc called for NetworkObjectId: {networkObjectId}");
+       if(NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(networkObjectId, out NetworkObject netObj))
+       {
 
-        InfectedController target = FindPlayerInRange();
+        InfectedController target = netObj.GetComponent<InfectedController>();
         if (target == null) return;
-        carriedObject = target.gameObject;
+        Debug.Log(netObj.name + " found to carry.");
+        netObj.TrySetParent(transform,false);
+        netObj.transform.localPosition = carryPosition != null ? carryPosition.localPosition : Vector3.up * 1.0f;
+        carriedNetworkObject = netObj;
         target.SetCarriedState(true);
         isCarrying = true;
         CooldownRemaining.Value = cooldown;
+       }
     }
-
+    
     private InfectedController FindPlayerInRange()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position,beamThickness,characterMovement.GetLastDirection(),range, targetLayer);
