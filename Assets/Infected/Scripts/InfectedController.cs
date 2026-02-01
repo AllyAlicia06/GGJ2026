@@ -1,9 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
 public class InfectedController : CharacterControllerCustom
 {
     private CoughAbility coughAbility;
+
+    public bool canMove = false;
+    public bool isCarried = false;  
     private void Awake()
     {
         base.Awake();
@@ -32,4 +36,31 @@ public class InfectedController : CharacterControllerCustom
             characterMovement.IsCoughing = false;
         }
     }
+    override protected void HandleMovementInput()
+    {
+        if (!canMove) return;
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+
+        Vector2 inputVector = new Vector2(x, y).normalized;
+        characterMovement.SetMovementInput(inputVector);
+    }
+    override public void HandleState()
+    {
+        if(isCarried)
+        {
+           return;
+        }
+    }
+    public void SetCarriedState(bool carried)
+    {
+        Debug.Log($"[InfectedController] SetCarriedState: {carried}", this);
+        isCarried = carried;
+        //canMove = !carried;
+        if(carried)
+        {
+            characterMovement.SetMovementInput(Vector2.zero);
+        }
+    }
+    
 }

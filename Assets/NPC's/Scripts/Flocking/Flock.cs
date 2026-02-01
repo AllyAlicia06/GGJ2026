@@ -10,6 +10,7 @@ public class Flock : NetworkBehaviour
 {
 
     public FlockAgent agentPrefab;
+    //NpcInfected npcInfectedScript;
     List<FlockAgent> agents = new List<FlockAgent>();
     public FlockBehaviour behaviour;
 
@@ -53,6 +54,7 @@ public class Flock : NetworkBehaviour
             newAgent.name = "Agent " + i;
             agents.Add(newAgent);
             newAgent.Initialize(this);
+           
             //Debug.Log("Spawned agent " + i + " with speed " + newAgent.agentSpeed);
         }
     }
