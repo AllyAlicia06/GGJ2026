@@ -330,6 +330,7 @@ GameObject:
   - component: {fileID: 260167186655705205}
   - component: {fileID: 4483481231652213470}
   - component: {fileID: 7011445898759320470}
+  - component: {fileID: 4475139483007023648}
   m_Layer: 16
   m_Name: Abilities
   m_TagString: Untagged
@@ -395,6 +396,28 @@ MonoBehaviour:
   _characterMovement: {fileID: 0}
   CooldownRemaining:
     m_InternalValue: 0
+--- !u!114 &4475139483007023648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6746863407848027843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99247c263db0c674d831ace38c72ffc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheckTemperatureAbility
+  ShowTopMostFoldoutHeaderGroup: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  range: 0.3
+  beamThickness: 0.2
+  cooldown: 0.2
+  _characterMovement: {fileID: 0}
+  CooldownRemaining:
+    m_InternalValue: 0
 --- !u!1 &8069666193712551755
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,7 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2211549465
+  GlobalObjectIdHash: 1448816888
   InScenePlacedSourceGlobalObjectIdHash: 3590865332
   DeferredDespawnTick: 0
   Ownership: 1
