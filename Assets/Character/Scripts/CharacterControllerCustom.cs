@@ -5,6 +5,11 @@ public class CharacterControllerCustom : NetworkBehaviour
 {
     protected CharacterMovement characterMovement;
     
+
+
+    public NetworkVariable<bool> canMoveNetwork = new NetworkVariable<bool>(true,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public bool canMove = true;
     [Header("Animations")]
     [SerializeField] private Animator animator;
     
@@ -29,11 +34,15 @@ public class CharacterControllerCustom : NetworkBehaviour
         HandleSprintInput();
         HandleAbilityInput();
         
-        Debug.Log("Controller Update " + name);
+        //Debug.Log("Controller Update " + name);
     }
     
     public override void OnNetworkSpawn()
     {
+        canMoveNetwork.OnValueChanged += (bool oldValue, bool newValue) =>
+        {
+            canMove = newValue;
+        };
         Debug.Log($"[{name}] IsOwner={IsOwner} OwnerClientId={OwnerClientId} LocalClientId={NetworkManager.Singleton.LocalClientId}");
         enabled = IsOwner;
         Debug.Log($"Controller spawned on {name} IsOwner={IsOwner} IsServer={IsServer} IsClient={IsClient}");
