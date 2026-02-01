@@ -34576,12 +34576,12 @@ MonoBehaviour:
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
+  SynchronizeTransform: 0
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
+  AutoObjectParentSync: 0
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
 --- !u!114 &1831224495
@@ -34599,7 +34599,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   agentPrefab: {fileID: 7293907652016933982, guid: 8020277e2a4a6dd47aa989581b1cb27d, type: 3}
   behaviour: {fileID: 11400000, guid: 931e63d62af4b1b42b46a60c51ec159a, type: 2}
-  startingCount: 48
+  startingCount: 100
   driveFactor: 1
   maxSpeed: 1.5
   minSpeed: 1
