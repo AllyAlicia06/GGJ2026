@@ -592,6 +592,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InfectedController
   ShowTopMostFoldoutHeaderGroup: 1
+  canMove: 0
+  isCarried: 0
 --- !u!1 &8138670992473606912
 GameObject:
   m_ObjectHideFlags: 0

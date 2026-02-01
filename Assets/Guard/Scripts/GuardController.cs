@@ -3,12 +3,15 @@ using UnityEngine;
 public class GuardController : CharacterControllerCustom
 {
     private CureAbility cureAbility;
-
+    private CarryAbility carryAbility;
     protected override void Awake()
     {
         base.Awake();
         cureAbility = GetComponentInChildren<CureAbility>();
+        carryAbility = GetComponentInChildren<CarryAbility>();
         Debug.Log($"[Guard] cureAbility found? {cureAbility != null}", this);
+        Debug.Log($"[Guard] carryAbility found? {carryAbility != null}", this);
+        carryAbility.characterMovement = characterMovement;
     }
     
     //restul gen handlemovementinput ramane ca la charactercontrollercustom, fac eu alta clasa separata pentru infectat ...
@@ -23,6 +26,15 @@ public class GuardController : CharacterControllerCustom
             {
                 Debug.Log("[Guard] E pressed", this);
                 cureAbility.TryCure();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (carryAbility != null)
+            {
+                Debug.Log("[Guard] Space pressed", this);
+                carryAbility.TryCarry();
             }
         }
     }

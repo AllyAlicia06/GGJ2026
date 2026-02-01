@@ -20,6 +20,7 @@ public class NPC_Handler : MonoBehaviour
     {
         _healthyTemperature= Random.Range(36.5f, 37.5f);
         _infectedTemperature= Random.Range(38.5f, 40.0f);
+        _npcName += Random.Range(1000, 9999).ToString();
         
     }
 
