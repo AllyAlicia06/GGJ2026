@@ -1,49 +1,52 @@
-
 using System.Collections;
-using System.Collections.Generic;
-
 using Unity.Netcode;
 using UnityEngine;
 
 public class NpcInfected : NetworkBehaviour
 {
     [Header("State")]
-    public NetworkVariable<bool> isInfected = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    
+    public NetworkVariable<bool> isInfected = new NetworkVariable<bool>(
+        true,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Server
+    );
+
     [Header("Visuals")]
     public SpriteRenderer spriteRenderer;
     public Color infectedColor = Color.red;
     public Color healthyColor = Color.green;
 
     private bool TemperatureIsToggled = false;
-     private float _healthyTemperature = 37.0f;
+
+    private float _healthyTemperature = 37.0f;
     public float HealthyTemperature { get { return _healthyTemperature; } set { _healthyTemperature = value; } }
+
     private float _infectedTemperature = 39.0f;
     public float InfectedTemperature { get { return _infectedTemperature; } set { _infectedTemperature = value; } }
-    NetworkObject networkObject;
+
     private GameState gamestate;
 
     [ServerRpc(RequireOwnership = false)]
     public void InfectServerRpc() => isInfected.Value = true;
-    
+
     [ServerRpc(RequireOwnership = false)]
     public void CureServerRpc() => isInfected.Value = false;
-    
+
     private void Awake()
     {
-        if(spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        _healthyTemperature= Random.Range(36.5f, 37.5f);
-        _infectedTemperature= Random.Range(38.5f, 40.0f);
+        if (spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _healthyTemperature = Random.Range(36.5f, 37.5f);
+        _infectedTemperature = Random.Range(38.5f, 40.0f);
     }
 
     public override void OnNetworkSpawn()
     {
         gamestate = FindFirstObjectByType<GameState>();
-        
+
         ApplyVisual(isInfected.Value);
         isInfected.OnValueChanged += OnInfectedChanged;
-        
-        if(IsServer && gamestate != null)
+
+        if (IsServer && gamestate != null)
             gamestate.OnNpcInfectionChanged(NetworkObjectId, isInfected.Value);
     }
 
@@ -56,22 +59,19 @@ public class NpcInfected : NetworkBehaviour
     {
         ApplyVisual(newValue);
 
-        if(IsServer && gamestate != null)
+        if (IsServer && gamestate != null)
             gamestate.OnNpcInfectionChanged(NetworkObjectId, newValue);
     }
+
+    // Called by the server spawner after the NPC NetworkObject has been spawned.
     public void Initialize(bool infected)
     {
-        networkObject = GetComponent<NetworkObject>();
+        if (!IsServer) return;
+
         isInfected.Value = infected;
         ApplyVisual(infected);
-        if(networkObject == null )
-        {
-            Debug.LogError("NetworkObject is null for NPC " + gameObject.name);
-            return;
-        }
-
-        networkObject.Spawn();
     }
+
     public void ApplyVisual(bool infected)
     {
         if (spriteRenderer == null) return;
@@ -83,7 +83,6 @@ public class NpcInfected : NetworkBehaviour
         if (!IsServer) return;
         isInfected.Value = true;
         ApplyVisual(true);
-
     }
 
     public void CureServer()
@@ -96,18 +95,24 @@ public class NpcInfected : NetworkBehaviour
 
     public void ToggleTemperature()
     {
-        if(TemperatureIsToggled) return; 
-        //just for visual feedback, not changing actual infection state
+        if (TemperatureIsToggled) return;
+
+        TemperatureIsToggled = true;
+
+        // Just for visual feedback, not changing actual infection state
         float currentTemp = isInfected.Value ? InfectedTemperature : HealthyTemperature;
         Debug.Log("Toggling temperature visual for NPC " + currentTemp);
-        spriteRenderer.color = Color.blue;
+
+        if (spriteRenderer != null)
+            spriteRenderer.color = Color.blue;
+
         StartCoroutine(ResetColorAfterDelay(0.5f));
     }
+
     IEnumerator ResetColorAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         ApplyVisual(isInfected.Value);
         TemperatureIsToggled = false;
     }
-    
 }

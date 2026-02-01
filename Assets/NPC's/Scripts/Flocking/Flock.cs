@@ -1,93 +1,113 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 
-
-
-
 public class Flock : NetworkBehaviour
 {
-
     public FlockAgent agentPrefab;
-    //NpcInfected npcInfectedScript;
     List<FlockAgent> agents = new List<FlockAgent>();
     public FlockBehaviour behaviour;
-
 
     [Range(10, 500)]
     public int startingCount = 250;
     const float AgentDensity = 0.08f;
 
-    [Range(1f, 100f)]
-    public float driveFactor = 10f;
-    [Range(1f, 100f)]
-    public float maxSpeed = 5f;
-    [Range(1f, 100f)]
-    public float minSpeed = 2f;
-    [Range(1f, 10f)]
-    public float neighborRadius = 1.2f;
-    [Range(0f, 1f)]
-    public float avoidanceRadiusMultiplier = 0.3f;
+    [Range(1f, 100f)] public float driveFactor = 10f;
+    [Range(1f, 100f)] public float maxSpeed = 5f;
+    [Range(1f, 100f)] public float minSpeed = 2f;
+    [Range(1f, 10f)]  public float neighborRadius = 1.2f;
+    [Range(0f, 1f)]   public float avoidanceRadiusMultiplier = 0.3f;
 
-    float squareMaxSpeed;
-    float squareNeighborRadius;
-    float squareAvoidanceRadius;
-    public float SquareAvoidanceRadius { get { return squareAvoidanceRadius; } }
+    private bool spawnedOnce;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        squareMaxSpeed = maxSpeed * maxSpeed;
-        squareNeighborRadius = neighborRadius * neighborRadius;
-        squareAvoidanceRadius = squareNeighborRadius * avoidanceRadiusMultiplier * avoidanceRadiusMultiplier;
+        if (!IsServer) return;
+        if (spawnedOnce) return;
+        spawnedOnce = true;
 
+        CleanupExistingAgentsServer();
+        SpawnAgents();
+    }
+
+    private void CleanupExistingAgentsServer()
+    {
+        var existingAgents = GetComponentsInChildren<FlockAgent>(true);
+        foreach (var a in existingAgents)
+        {
+            if (a == null) continue;
+
+            var no = a.GetComponent<NetworkObject>();
+            if (no != null && no.IsSpawned)
+                no.Despawn(true);
+            else
+                Destroy(a.gameObject);
+        }
+
+        agents.Clear();
+    }
+
+    private void SpawnAgents()
+    {
         for (int i = 0; i < startingCount; i++)
         {
-            FlockAgent newAgent = Instantiate(
-                agentPrefab,
-                Random.insideUnitCircle * startingCount * AgentDensity,
-                Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)),
-                transform
-                );
+            Vector3 pos = (Vector3)(Random.insideUnitCircle * startingCount * AgentDensity);
+            Quaternion rot = Quaternion.identity;
+
+            FlockAgent newAgent = Instantiate(agentPrefab, pos, rot);
             newAgent.name = "Agent " + i;
+
+            var netObj = newAgent.GetComponent<NetworkObject>();
+            if (netObj == null)
+            {
+                Debug.LogError("Agent prefab is missing NetworkObject!");
+                Destroy(newAgent.gameObject);
+                continue;
+            }
+
+            netObj.Spawn();
+            
+            var npcSkin = newAgent.GetComponent<NpcSkin>();
+            if (npcSkin != null && npcSkin.SkinCount > 0)
+                npcSkin.SetSkinServer(Random.Range(0, npcSkin.SkinCount));
+            
             agents.Add(newAgent);
             newAgent.Initialize(this);
-           
-            //Debug.Log("Spawned agent " + i + " with speed " + newAgent.agentSpeed);
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(!IsServer) return;
-        foreach (FlockAgent agent in agents)
+        if (!IsServer) return;
+
+        for (int i = agents.Count - 1; i >= 0; i--)
         {
+            var agent = agents[i];
+            if (agent == null)
+            {
+                agents.RemoveAt(i);
+                continue;
+            }
+
             List<Transform> context = GetNearbyObjects(agent);
 
-            //agent.GetComponentsInChildren<SpriteRenderer>()[0].color = Color.Lerp(Color.white, Color.red, context.Count / 6f);
             Vector2 move = behaviour.CalculateMove(agent, context, this);
             move *= driveFactor;
-            if (move.sqrMagnitude > agent.squareMaxSpeed)
-            {
-                move = move.normalized * agent.agentSpeed;
-            }
+
             agent.Move(move);
         }
     }
 
     List<Transform> GetNearbyObjects(FlockAgent agent)
     {
-        List<Transform> context = new List<Transform>();
+        var context = new List<Transform>();
+        if (agent == null) return context;
+
         Collider2D[] contextColliders = Physics2D.OverlapCircleAll(agent.transform.position, neighborRadius);
         foreach (Collider2D c in contextColliders)
         {
             if (c != agent.AgentCollider)
-            {
                 context.Add(c.transform);
-            }
         }
         return context;
     }

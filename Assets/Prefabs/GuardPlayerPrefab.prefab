@@ -393,7 +393,7 @@ MonoBehaviour:
   beamThickness: 0.2
   isCarrying: 0
   cooldown: 2.5
-  _characterMovement: {fileID: 0}
+  _characterMovement: {fileID: 9059387943671563606}
   CooldownRemaining:
     m_InternalValue: 0
 --- !u!114 &4475139483007023648
@@ -627,6 +627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuardController
   ShowTopMostFoldoutHeaderGroup: 1
+  animator: {fileID: 0}
 --- !u!114 &6513183063972686546
 MonoBehaviour:
   m_ObjectHideFlags: 0

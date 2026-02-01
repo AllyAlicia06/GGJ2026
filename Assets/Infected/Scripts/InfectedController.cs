@@ -38,12 +38,13 @@ public class InfectedController : CharacterControllerCustom
     }
     override protected void HandleMovementInput()
     {
-        if (!canMove) return;
+        /*if (!canMove) return;
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 
         Vector2 inputVector = new Vector2(x, y).normalized;
-        characterMovement.SetMovementInput(inputVector);
+        characterMovement.SetMovementInput(inputVector);*/
+        base.HandleMovementInput();
     }
     override public void HandleState()
     {
