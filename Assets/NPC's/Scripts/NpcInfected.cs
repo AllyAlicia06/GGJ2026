@@ -95,8 +95,13 @@ public class NpcInfected : NetworkBehaviour
 
     public void ToggleTemperature()
     {
-        if (!IsServer) return;
-        if (TemperatureIsToggled) return;
+        //if (!IsServer) return;
+        if (TemperatureIsToggled) 
+        {
+            if (spriteRenderer != null)
+            spriteRenderer.color = Color.blue;
+            return;
+        }
 
         TemperatureIsToggled = true;
 

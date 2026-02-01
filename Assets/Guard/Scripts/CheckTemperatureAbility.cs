@@ -61,7 +61,10 @@ public class CheckTemperatureAbility : NetworkBehaviour
     {
         
         if (!IsOwner) return;
-       
+        NpcInfected target = FindNPCInRange();
+        if (target == null) return;
+        checkedObject = target.gameObject;
+        target.ToggleTemperature();
         TryCheckTemperatureServerRpc();
     }
 
@@ -71,10 +74,7 @@ public class CheckTemperatureAbility : NetworkBehaviour
         if (rpcParams.Receive.SenderClientId != OwnerClientId) return;
         if (CooldownRemaining.Value > 0f) return;
 
-        NpcInfected target = FindNPCInRange();
-        if (target == null) return;
-        checkedObject = target.gameObject;
-        target.ToggleTemperature();
+        
         CooldownRemaining.Value = cooldown;
     }
 
