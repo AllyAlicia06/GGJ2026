@@ -6,7 +6,9 @@ public class InfectedController : CharacterControllerCustom
 {
     private CoughAbility coughAbility;
 
-    public bool canMove = false;
+    
+    
+  
     public bool isCarried = false;  
     private void Awake()
     {
@@ -38,8 +40,8 @@ public class InfectedController : CharacterControllerCustom
     }
     override protected void HandleMovementInput()
     {
-        /*if (!canMove) return;
-        float x = Input.GetAxisRaw("Horizontal");
+        if (!canMove) return;
+        /*float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 
         Vector2 inputVector = new Vector2(x, y).normalized;
@@ -55,9 +57,10 @@ public class InfectedController : CharacterControllerCustom
     }
     public void SetCarriedState(bool carried)
     {
+        if(!IsServer) return;
         Debug.Log($"[InfectedController] SetCarriedState: {carried}", this);
+        canMoveNetwork.Value = !carried;
         isCarried = carried;
-        canMove = !carried;
         if(carried)
         {
             characterMovement.SetMovementInput(Vector2.zero);
