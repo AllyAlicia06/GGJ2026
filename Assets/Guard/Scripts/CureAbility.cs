@@ -1,4 +1,4 @@
-using System;
+
 using Unity.Netcode;
 using UnityEngine;
 
@@ -81,7 +81,12 @@ public class CureAbility : NetworkBehaviour
                 best = infected;
             }
         }
-
+        Debug.Log("CureAbility found infected: " + (best != null ? best.name : "none"));
         return best;
+    }
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, range);
     }
 }

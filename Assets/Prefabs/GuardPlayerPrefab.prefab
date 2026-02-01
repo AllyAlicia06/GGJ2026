@@ -367,10 +367,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CureAbility
   ShowTopMostFoldoutHeaderGroup: 1
   range: 0.5
-  cooldown: 2.5
+  cooldown: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 69632
+    m_Bits: 4096
   CooldownRemaining:
     m_InternalValue: 0
 --- !u!114 &7011445898759320470
